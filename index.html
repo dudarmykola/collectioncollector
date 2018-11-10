@@ -8,6 +8,42 @@
   <title>Document</title>
 </head>
 <body>
-  <h1>project-scaffoldings</h1>
+<header></header>
+<main>
+  <div class="login-wrapper">
+    <div class="form-container">
+      <div class="error" id="errorMessage"></div>
+      <form class="form form--register" id="register-form">
+        <div class="input">
+          <input type="text" placeholder="name" id="name" class="input"/>
+          <p class="message message--error"></p>
+        </div>
+        <div class="input">
+          <input type="password" placeholder="password" id="password"/>
+          <p class="message message--error"></p>
+        </div>
+        <div class="input">
+          <input type="email" placeholder="email address" id="email"/>
+          <p class="message message--error"></p>
+        </div>
+        <button class="form__button">create</button>
+        <p class="message">Already registered? <a class="form__link" id="login">Sign In</a></p>
+      </form>
+      <form class="form form--login collapsed">
+        <div class="input">
+          <input type="text" placeholder="username" id="username"/>
+          <div class="message message--error"></div>
+        </div>
+        <div class="input">
+          <input type="password" placeholder="password" id="usernamePwd"/>
+          <div class="message message--error"></div>
+        </div>
+        <button class="form__button">login</button>
+        <p class="message">Not registered? <a class="form__link" id="register">Create an account</a></p>
+      </form>
+    </div>
+  </div>
+</main>
+<footer></footer>
 </body>
 </html>

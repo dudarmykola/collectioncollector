@@ -2,3 +2,5 @@
 node_modules
 .vscode
 dist
+*.css
+*.css.map

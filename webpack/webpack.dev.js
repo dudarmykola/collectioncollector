@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const devMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   mode: 'development',
@@ -28,12 +30,7 @@ module.exports = {
             loader: 'style-loader' // creates style nodes from JS strings
           },
           {
-            loader: 'css-loader', // translates CSS into CommonJS
-            query: {
-              modules: true,
-              camelCase: true,
-              localIdentName: '[name]__[local]___[hash:base64:5]'
-            }
+            loader: 'css-loader' // translates CSS into CommonJS
           },
           {
             loader: 'sass-loader' // compiles Sass to CSS
@@ -46,10 +43,17 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve('./index.html')
     }),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: devMode ? '[name].css' : '[name].[hash].css',
+      chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
+    })
   ],
   devServer: {
     contentBase: path.join(__dirname, '../'),
     compress: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    disableHostCheck: true
   }
 };
