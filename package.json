@@ -8,9 +8,13 @@
     "test": "jest",
     "lint": "eslint ./src",
     "lint:watch": "esw --watch",
-    "stylelint": "stylelint './src/**/*.css'",
-    "precommit": "npm run lint && npm run stylelint",
-    "prepush": "npm run test"
+    "stylelint": "stylelint './src/**/*.css'"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run stylelint",
+      "pre-push": "npm run test"
+    }
   },
   "author": "",
   "devDependencies": {
