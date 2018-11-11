@@ -9,13 +9,20 @@ export const showErrorLabel = (element, messageContainer, text) => {
   element.classList.remove('input--success');
   element.classList.add('input--error');
   messageContainer.innerText = text;
-
 };
 
 export const showSuccessLabel = (element, messageContainer, text) => {
   element.classList.remove('input--error');
   element.classList.add('input--success');
   messageContainer.innerText = text;
+};
+
+export const showContent = element => {
+  element.classList.remove('hidden');
+};
+
+export const hideContent = element => {
+  element.classList.add('hidden');
 };
 
 export const fadeIn = (element, duration) => {

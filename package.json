@@ -8,16 +8,18 @@
     "test": "jest",
     "lint": "eslint ./src",
     "lint:watch": "esw --watch",
-    "stylelint": "stylelint './src/**/*.css'"
+    "stylelint": "stylelint './src/**/*.scss'"
   },
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint && npm run stylelint",
-      "pre-push": "npm run test"
+      "post-commit": "git update-index -g"
     }
   },
   "author": "",
   "devDependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.8",
+    "@fortawesome/free-solid-svg-icons": "^5.5.0",
     "css-loader": "^1.0.0",
     "eslint": "^5.6.1",
     "eslint-plugin-jest": "^21.25.1",
@@ -33,7 +35,8 @@
     "stylelint-config-standard": "^18.2.0",
     "webpack": "^4.22.0",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.9"
+    "webpack-dev-server": "^3.1.9",
+    "windowise": "^1.0.6"
   },
   "dependencies": {
     "firebase": "^5.5.8"

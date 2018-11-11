@@ -1,0 +1,35 @@
+header {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  height: 60px;
+  justify-content: flex-end;
+
+  .details {
+    color: $white-color;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 12px;
+
+    &__sign-out {
+      background-color: transparent;
+      color: $white-color;
+      border: none;
+      font-size: 36px;
+      cursor: pointer;
+      outline: none;
+      will-change: opacity;
+      transition: opacity 200ms ease-in-out;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    &__user {
+      font-size: 14px;
+    }
+  }
+}

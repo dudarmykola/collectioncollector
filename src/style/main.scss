@@ -1,8 +1,15 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:300);
+@import 'reset';
 @import 'variables';
+@import 'header';
+
+body {
+  background: #76b852;
+  background: linear-gradient(to left, #76b852, #8dc26f);
+  font-family: "Roboto", sans-serif;
+}
 
 .login-wrapper {
-  width: 360px;
   padding: 8% 0 0;
   margin: auto;
 
@@ -18,7 +25,7 @@
 
     .error {
       background-color: $red-color;
-      color: white;
+      color: $white-color;
       padding: 15px;
       margin-bottom: 15px;
       display: none;
@@ -79,6 +86,10 @@
   transition: all 200ms ease-in-out;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .container {
   position: relative;
   z-index: 1;
@@ -118,12 +129,6 @@
       }
     }
   }
-}
-
-body {
-  background: #76b852; /* fallback for old browsers */
-  background: linear-gradient(to left, #76b852, #8dc26f);
-  font-family: "Roboto", sans-serif;
 }
 
 .input {

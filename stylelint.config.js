@@ -10,6 +10,9 @@ module.exports = {
       ignorePseudoClasses: ["global"]
     }],
     "selector-max-id": 0,
-    "selector-class-pattern": "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$"
+    "selector-class-pattern": ["^([a-z][a-z0-9]*)(-[a-z0-9]+)*$", {
+      "resolveNestedSelectors": false,
+    }],
+    "no-descending-specificity": false,
   }
 };

@@ -2,20 +2,35 @@ import './style/main.scss';
 import * as firebase from 'firebase';
 import config from './scripts/firebase-config';
 import {restriction} from './scripts/constants';
-import * as Services from  './scripts/services';
-import * as ValidateService from  './scripts/validate';
+import * as Services from './scripts/services';
+import * as ValidateService from './scripts/validate';
 import ErrorMessage from './scripts/error-mssage';
 
-firebase.initializeApp(config);
+import { library, dom } from '@fortawesome/fontawesome-svg-core';
+import { faSignOutAlt, faSignInAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons/index';
+
+import {Modal} from 'windowise';
+import 'windowise/src/sass/style.scss';
+
+library.add(faSignOutAlt, faSignInAlt, faUserPlus);
+dom.watch();
 
 const linkBtn = document.querySelectorAll('.message a');
 const forms = document.querySelectorAll('form');
 
+const $loginWrapper = document.getElementById('login-wrapper');
+const $detailsUser = document.getElementById('details-user');
+const $collectionWrapper = document.getElementById('collection-wrapper');
+const $details = document.getElementById('details');
 const $registerForm = document.getElementById('register-form');
+const $loginForm = document.getElementById('login-form');
+const $signOutBtn = document.getElementById('sign-out');
 const $name = document.getElementById('name');
 const $email = document.getElementById('email');
 const $password = document.getElementById('password');
 const $errorMessage = document.getElementById('errorMessage');
+const $username = document.getElementById('username');
+const $usernamePwd = document.getElementById('usernamePwd');
 
 const errorMessageHandler = new ErrorMessage();
 
@@ -42,12 +57,12 @@ const registerForm = event => {
         const usr = firebase.auth().currentUser;
 
         usr.updateProfile({
-          displayName: name,
+          displayName: name
         }).then(() => {
-          window.location = 'collections.html';
-
+          $detailsUser.innerText = name;
         }).catch(error => {
           const errorMessage = error.message;
+
           errorMessageHandler.show(
             $errorMessage,
             `Error : ${errorMessage}`
@@ -64,10 +79,42 @@ const registerForm = event => {
         );
       });
   } else {
-
     errorMessageHandler.show(
       $errorMessage,
       'Please correctly fill out the fields to confirm your registration.'
+    );
+  }
+};
+
+const loginForm = event => {
+  event.preventDefault();
+
+  errorMessageHandler.hide($errorMessage);
+
+  const username = $username.value;
+  const password = $usernamePwd.value;
+  const user = Object.assign({}, {
+    email: username,
+    password: password
+  });
+
+  if (username && password) {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(user.email, user.password)
+      .then()
+      .catch(function (error) {
+        const errorMessage = error.message;
+
+        errorMessageHandler.show(
+          $errorMessage,
+          `Error : ${errorMessage}`
+        );
+      });
+  } else {
+    errorMessageHandler.show(
+      $errorMessage,
+      'Please correctly fill out the fields to sign in.'
     );
   }
 };
@@ -170,23 +217,82 @@ const initShowInputError = () => {
   showInputError($email);
 };
 
-const init = () => {
-  initShowInputError();
+const initApp = () => {
+  firebase
+    .auth()
+    .onAuthStateChanged(function (user) {
+      if (user) {
+        Services.showContent($details);
+        Services.showContent($collectionWrapper);
+        Services.hideContent($loginWrapper);
 
-  linkBtn
-    .forEach(link => {
-      link.addEventListener('click', () => {
-        forms
-          .forEach(form => {
-            form.classList.toggle('collapsed');
+        $detailsUser.innerText = user.displayName;
+
+        $signOutBtn.addEventListener('click', function (event) {
+          event.preventDefault();
+          const modalWindow = new Modal({
+            type: 'caution',
+            title: 'Are you sure you want to sign out?',
+            buttons: [
+              {
+                id: 'yes',
+                key: 13,
+                text: 'Yes'
+              },
+              {
+                id: 'no',
+                key: 27,
+                text: 'No',
+                normal: true
+              }
+            ],
+            keepOverlay: false
           });
-      });
+
+          modalWindow.open();
+
+          modalWindow.getPromise().then( id => {
+            (id === 'yes') ? logOut() : modalWindow.close();
+          });
+
+        });
+      } else {
+        Services.hideContent($details);
+        Services.hideContent($collectionWrapper);
+        Services.showContent($loginWrapper);
+
+        initShowInputError();
+
+        linkBtn
+          .forEach(link => {
+            link.addEventListener('click', () => {
+              forms
+                .forEach(form => {
+                  form.classList.toggle('collapsed');
+                });
+            });
+          });
+
+        $registerForm.addEventListener('submit', event => {
+          registerForm(event);
+        });
+
+        $loginForm.addEventListener('submit', event => {
+          loginForm(event);
+        });
+      }
     });
+};
 
-  $registerForm.addEventListener('submit', event => {
-    registerForm(event);
+const logOut = () => {
+  firebase.auth().signOut().then(() => {
+
   });
+};
 
+const init = () => {
+  firebase.initializeApp(config);
+  initApp();
 };
 
 init();

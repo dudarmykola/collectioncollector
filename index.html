@@ -1,16 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Collection Collector</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+  <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/><![endif]-->
+  <meta name="description" content="CollectionCollector lets you catalog any collection"/>
 </head>
 <body>
-<header></header>
+<header>
+  <div id="details" class="details hidden">
+    <span>You are signed in as <span class="details__user" id="details-user"></span></span>
+    <button id="sign-out" class="details__sign-out"><i class="fas fa-sign-out-alt"></i></button>
+  </div>
+</header>
 <main>
-  <div class="login-wrapper">
+  <section class="login-wrapper" id="login-wrapper">
     <div class="form-container">
       <div class="error" id="errorMessage"></div>
       <form class="form form--register" id="register-form">
@@ -26,23 +31,31 @@
           <input type="email" placeholder="email address" id="email"/>
           <p class="message message--error"></p>
         </div>
-        <button class="form__button">create</button>
+        <button class="form__button">
+          <i class="fas fa-user-plus"></i>
+          <span>Sign Up</span>
+        </button>
         <p class="message">Already registered? <a class="form__link" id="login">Sign In</a></p>
       </form>
-      <form class="form form--login collapsed">
+      <form class="form form--login collapsed" id="login-form">
         <div class="input">
-          <input type="text" placeholder="username" id="username"/>
-          <div class="message message--error"></div>
+          <input type="email" placeholder="email" id="username"/>
+          <p class="message message--error"></p>
         </div>
         <div class="input">
           <input type="password" placeholder="password" id="usernamePwd"/>
-          <div class="message message--error"></div>
+          <p class="message message--error"></p>
         </div>
-        <button class="form__button">login</button>
+        <button class="form__button">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Sign In</span>
+        </button>
         <p class="message">Not registered? <a class="form__link" id="register">Create an account</a></p>
       </form>
     </div>
-  </div>
+  </section>
+  <section class="collection-wrapper hidden" id="collection-wrapper">
+  </section>
 </main>
 <footer></footer>
 </body>
