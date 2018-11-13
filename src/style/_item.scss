@@ -39,11 +39,16 @@
       text-align: center;
       display: block;
       position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+      padding-right: 60px;
+      text-overflow: ellipsis;
 
       .controls {
         position: absolute;
         top: 5px;
         right: 5px;
+
         &__remove {
           background: none;
           border: none;
@@ -83,6 +88,11 @@
       .option {
         font-size: 20px;
         line-height: 20px;
+        word-break: break-all;
+      }
+
+      @media screen and (max-width: 460px) {
+        text-align: left;
       }
     }
 

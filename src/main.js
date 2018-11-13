@@ -255,9 +255,9 @@ const initApp = () => {
 
           if (exists) {
             const collection = snapshot.val();
-            new CollectionList(collection);
+            new CollectionList(collection, user.uid);
           } else {
-            new CollectionList();
+            new CollectionList(null, user.uid);
           }
         });
 
