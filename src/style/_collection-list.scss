@@ -1,0 +1,78 @@
+.collection-list {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+
+  .empty-collection {
+    color: $white-color;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h3 {
+      font-size: 32px;
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    button {
+      background-color: darken($green-color, 25%);
+      border: none;
+      border-radius: 6px;
+      min-width: 240px;
+      padding: 15px;
+      font-size: 30px;
+      color: $white-color;
+      $color: #7cf07f;
+      $color2: darken($green-color, 25%);
+
+      &:hover {
+        cursor: pointer;
+        animation: blinds 0.75s linear forwards;
+        background: linear-gradient(0deg, $color 25%, transparent 25%) 0 0 / 0.5em 0.5em, linear-gradient(0deg, $color2 50%, transparent 50%) 0 0 / 1em 1em;
+        color: adjust-hue($color, 30);
+      }
+
+      span {
+        font-size: 28px;
+        line-height: 30px;
+      }
+    }
+  }
+
+  .create-collection {
+    margin: 25px auto;
+    background-color: darken($green-color, 25%);
+    border: none;
+    border-radius: 6px;
+    min-width: 240px;
+    padding: 15px;
+    font-size: 30px;
+    color: $white-color;
+    $color: #7cf07f;
+    $color2: darken($green-color, 25%);
+
+    &:hover {
+      cursor: pointer;
+      animation: blinds 0.75s linear forwards;
+      background: linear-gradient(0deg, $color 25%, transparent 25%) 0 0 / 0.5em 0.5em, linear-gradient(0deg, $color2 50%, transparent 50%) 0 0 / 1em 1em;
+      color: adjust-hue($color, 30);
+    }
+
+    span {
+      font-size: 28px;
+      line-height: 30px;
+    }
+  }
+}
+
+@keyframes blinds {
+  100% {
+    background-position: 0 0, 0 -3em;
+    background-size: 0 0, 1em 6em;
+  }
+}

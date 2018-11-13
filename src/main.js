@@ -1,18 +1,30 @@
 import './style/main.scss';
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
+import 'firebase/storage';
 import config from './scripts/firebase-config';
 import {restriction} from './scripts/constants';
 import * as Services from './scripts/services';
 import * as ValidateService from './scripts/validate';
 import ErrorMessage from './scripts/error-mssage';
 
+import CollectionList from './scripts/collection-list';
+
 import { library, dom } from '@fortawesome/fontawesome-svg-core';
-import { faSignOutAlt, faSignInAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons/index';
+import {
+  faEdit,
+  faPlus,
+  faSignOutAlt,
+  faSignInAlt,
+  faTrashAlt,
+  faUserPlus
+} from '@fortawesome/free-solid-svg-icons/index';
 
 import {Modal} from 'windowise';
 import 'windowise/src/sass/style.scss';
 
-library.add(faSignOutAlt, faSignInAlt, faUserPlus);
+library.add(faEdit, faPlus, faSignOutAlt, faSignInAlt, faTrashAlt, faUserPlus );
 dom.watch();
 
 const linkBtn = document.querySelectorAll('.message a');
@@ -227,6 +239,27 @@ const initApp = () => {
         Services.hideContent($loginWrapper);
 
         $detailsUser.innerText = user.displayName;
+
+        const loginRef = firebase.database().ref('users');
+        const userLoginRef = loginRef.child(user.uid);
+        const userLoginCollectionRef = userLoginRef.child('collections');
+        const userLoginInfoCollectionRef = userLoginRef.child('info');
+
+        userLoginInfoCollectionRef.set({
+          email: user.email,
+          emailVerified: user.emailVerified
+        });
+
+        userLoginCollectionRef.on('value', function (snapshot) {
+          const exists = (snapshot.val() !== null);
+
+          if (exists) {
+            const collection = snapshot.val();
+            new CollectionList(collection, user.uid);
+          } else {
+            new CollectionList(null, user.uid);
+          }
+        });
 
         $signOutBtn.addEventListener('click', function (event) {
           event.preventDefault();

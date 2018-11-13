@@ -1,6 +1,6 @@
 export const restriction = {
   'minLength': {
-    'name': 3,
+    'name': 4,
     'password': 6,
   },
   'maxLength': {

@@ -33,7 +33,7 @@ module.exports = {
         {
           "ignoreTrailingComments": true,
           "ignoreComments": true,
-          "code": 100,
+          "code": 120,
           "ignoreRegExpLiterals": true,
         }
       ],
