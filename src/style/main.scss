@@ -18,9 +18,18 @@ body {
   margin: auto;
 
   .logo-container {
-    width: 120px;
+    width: 100%;
     margin: auto;
     padding-bottom: 30px;
+
+    .logo {
+      background-image: url('../assets/img/collection-collector.svg');
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 130px;
+      height: 130px;
+      margin: 0 auto;
+    }
   }
 
   .form-container {

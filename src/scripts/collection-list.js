@@ -4,14 +4,8 @@ import {Modal} from 'windowise';
 import {Input} from 'windowise';
 
 class CollectionList {
-  constructor (collections, id) {
-
-    this.collections = collections;
-    this.id = id;
-
+  constructor () {
     this.$collectionList = document.getElementById('collection-list');
-
-    this.render();
   }
 
   createCollectionContainer () {
@@ -30,9 +24,9 @@ class CollectionList {
     return $createCollectionBtn;
   }
 
-  createCollectionHeader (name) {
+  createCollectionHeader (name, id) {
     let collectionName = '';
-    const leadsRef = firebase.database().ref('users/' + this.id + '/collection-ref/' + name);
+    const leadsRef = firebase.database().ref('users/' + id + '/collection-ref/' + name);
 
     const $collectionHeader = document.createElement('div');
     $collectionHeader.classList.add('collection', `collection--${name}`);
@@ -279,25 +273,25 @@ class CollectionList {
     );
   }
 
-  render () {
-    if (this.collections) {
+  render (collections, id) {
+    if (collections) {
       this.$collectionList.innerHTML = '';
 
       const $createCollectionBtn = this.createAddButton();
 
       this.$collectionList.appendChild($createCollectionBtn);
       $createCollectionBtn.addEventListener('click', () => {
-        this.createCollection(this.id);
+        this.createCollection(id);
       });
 
       $createCollectionBtn.addEventListener('click', () => {
-        this.createCollection(this.id);
+        this.createCollection(id);
       });
 
-      Object.keys(this.collections).map( collectionName => {
+      Object.keys(collections).map( collectionName => {
         const $collectionContainer = this.createCollectionContainer();
-        const $collectionHeader = this.createCollectionHeader(collectionName);
-        const $collectionItemList = this.createCollectionItemList(this.collections[collectionName]);
+        const $collectionHeader = this.createCollectionHeader(collectionName, id);
+        const $collectionItemList = this.createCollectionItemList(collections[collectionName]);
 
         $collectionContainer.appendChild($collectionHeader);
         $collectionContainer.appendChild($collectionItemList);
@@ -317,7 +311,7 @@ class CollectionList {
 
       this.$createCollectionBtn = document.getElementById('create-collection');
       this.$createCollectionBtn.addEventListener('click', () => {
-        this.createCollection(this.id);
+        this.createCollection(id);
       });
 
     }

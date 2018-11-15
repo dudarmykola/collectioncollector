@@ -30,7 +30,7 @@ Clone the repo
 
 ## Contribution guide
 
-[Please check guide](https://github.com/dudarmykola/collectioncollector/blob/master/.github/CONTRIBUTIONG.md)
+[Please check guide](https://github.com/dudarmykola/collectioncollector/blob/master/.github/CONTRIBUTING.md)
 
 ## Issue & Pull Request templates
 
