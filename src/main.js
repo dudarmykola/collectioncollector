@@ -5,6 +5,7 @@ import 'firebase/auth';
 import 'firebase/database';
 import 'firebase/storage';
 import Auth from './scripts/auth';
+import Api from './scripts/api';
 import config from './scripts/firebase-config';
 import * as Services from './scripts/services';
 import CollectionList from './scripts/collection-list';
@@ -29,7 +30,7 @@ const $collectionWrapper = document.getElementById('collection-wrapper');
 const $details = document.getElementById('details');
 
 const auth = new Auth();
-const collectionList = new CollectionList();
+const api = new Api();
 
 const verifyUser = () => {
   firebase
@@ -44,7 +45,6 @@ const verifyUser = () => {
 
         const loginRef = firebase.database().ref('users');
         const userLoginRef = loginRef.child(user.uid);
-        const userLoginCollectionRef = userLoginRef.child('collections');
         const userLoginInfoCollectionRef = userLoginRef.child('info');
 
         userLoginInfoCollectionRef.set({
@@ -52,9 +52,9 @@ const verifyUser = () => {
           emailVerified: user.emailVerified
         });
 
-        userLoginCollectionRef.on('value', snapshot => {
-          const collection = snapshot.val();
-          collectionList.render(collection, user.uid);
+        api.fetchCollections(user.uid, collections => {
+          const collectionList = new CollectionList();
+          collectionList.render(collections, user.uid);
         });
 
         $signOutBtn.addEventListener('click', event => {

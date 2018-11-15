@@ -1,5 +1,6 @@
 import CollectionItemList from './collection-item-list';
 import firebase from 'firebase/app';
+import Api from './api';
 import {Modal} from 'windowise';
 import {Input} from 'windowise';
 
@@ -25,14 +26,11 @@ class CollectionList {
   }
 
   createCollectionHeader (name, id) {
-    let collectionName = '';
-    const leadsRef = firebase.database().ref('users/' + id + '/collection-ref/' + name);
-
     const $collectionHeader = document.createElement('div');
-    $collectionHeader.classList.add('collection', `collection--${name}`);
+    const api = new Api();
 
-    leadsRef.on('value', snapshot => {
-      collectionName = snapshot.val();
+    api.getCollectionRefName(id, name, collectionName => {
+      $collectionHeader.classList.add('collection', `collection--${name}`);
 
       $collectionHeader.innerHTML = `
          <div class="collection__head">
@@ -115,8 +113,10 @@ class CollectionList {
 
     newCollectionModal.getPromise().then(
       function (value) {
-        Object.assign(collectionObj, {collectionName: value});
-        Object.assign(collectionObj, {collectionId: createCollectionId(value)});
+        Object.assign(collectionObj, {
+          collectionName: value,
+          collectionId: createCollectionId(value)
+        });
 
         const newCollectionNameModal = new Input({
           title: 'Please input a name of first item',

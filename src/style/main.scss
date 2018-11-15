@@ -7,15 +7,22 @@
 @import 'collection';
 @import 'item';
 
+html {
+  min-height: 100%;
+}
+
 body {
   background: #76b852;
   background: linear-gradient(to left, #76b852, #8dc26f);
   font-family: "Roboto", sans-serif;
+  min-height: calc(100vh - 60px);
 }
 
 .login-wrapper {
-  padding: 8% 0 0;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   .logo-container {
     width: 100%;
@@ -33,11 +40,10 @@ body {
   }
 
   .form-container {
-    position: relative;
-    z-index: 1;
     background: #fff;
-    max-width: 360px;
-    margin: 0 auto 100px;
+    box-sizing: border-box;
+    min-width: 300px;
+    margin: 0 auto;
     padding: 15px 45px 45px 45px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);

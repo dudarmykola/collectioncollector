@@ -39,7 +39,7 @@ Clone the repo
 
 ## Mockups
 
-(https://wireframepro.mockflow.com/view/Me334540213494eced83a351202b7d17a1539278838563#/page/e1662d2ef2bf4e1c946078ac5d09f662)
+[wireframepro](https://wireframepro.mockflow.com/view/Me334540213494eced83a351202b7d17a1539278838563#/page/e1662d2ef2bf4e1c946078ac5d09f662)
 
 ## Teachers
 
