@@ -10,7 +10,7 @@ The main functionality:
 - Create collections
 - Add items to collections
 
-[Demo]()
+[Demo](https://dudarmykola.github.io/collectioncollector/)
 
 # Tech stack
  - HTML5

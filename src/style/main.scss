@@ -82,7 +82,7 @@ body {
 
       &__link {
         font-size: 12px;
-        color: $green-color;
+        color: darken($green-color, 30%);
         text-decoration: none;
         outline: none;
         cursor: pointer;
@@ -91,7 +91,7 @@ body {
 
     .message {
       margin: 15px 0 0;
-      color: #b3b3b3;
+      color: #7e7e7e;
       font-size: 12px;
 
       &--error {
