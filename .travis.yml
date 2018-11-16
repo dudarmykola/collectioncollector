@@ -17,6 +17,7 @@ install:
 
 script:
   - npm run lint
+  - npm run stylelint
   - npm run build
 
 deploy:

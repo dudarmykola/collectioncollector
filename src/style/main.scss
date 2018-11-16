@@ -6,6 +6,7 @@
 @import 'collection-list';
 @import 'collection';
 @import 'item';
+@import 'side-bar';
 
 html {
   min-height: 100%;
@@ -30,9 +31,7 @@ body {
     padding-bottom: 30px;
 
     .logo {
-      background-image: url('../assets/img/collection-collector.svg');
-      background-repeat: no-repeat;
-      background-position: center;
+      background: url('../assets/img/coll-coll.svg') no-repeat center;
       width: 130px;
       height: 130px;
       margin: 0 auto;
@@ -42,9 +41,9 @@ body {
   .form-container {
     background: #fff;
     box-sizing: border-box;
-    min-width: 300px;
+    width: 300px;
     margin: 0 auto;
-    padding: 15px 45px 45px 45px;
+    padding: 15px 25px 45px 25px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 

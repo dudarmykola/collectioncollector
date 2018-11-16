@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 module.exports = (env, {mode}) => {
   const devMode = mode !== 'production';
@@ -52,7 +53,7 @@ module.exports = (env, {mode}) => {
               loader: 'file-loader',
             }
           ],
-        },
+        }
       ]
     },
     plugins: [
@@ -62,6 +63,21 @@ module.exports = (env, {mode}) => {
       new MiniCssExtractPlugin({
         filename: devMode ? '[name].css' : '[name].[hash].css',
         chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
+      }),
+      new WebpackPwaManifest({
+        filename: 'manifest.json',
+        name: 'CollectionCollector',
+        short_name: 'CollColl',
+        description: 'You can create your own collections',
+        background_color: '#4caf50',
+        theme_color: '#4caf50',
+        icons: [
+          {
+            src: path.resolve('src/assets/img/coll-coll.svg'),
+            sizes: [96, 128, 192, 256, 384, 512]
+          }
+        ],
+        includeDirectory: true
       })
     ],
     devServer: {

@@ -11,6 +11,12 @@ class ErrorMessage {
   hide () {
     this.container.classList.remove('error--visible');
   }
+
+  clearMessages () {
+    document.querySelectorAll('.error--visible').forEach( item => {
+      item.classList.remove('error--visible');
+    });
+  }
 }
 
 export default ErrorMessage;
