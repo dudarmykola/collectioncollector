@@ -33,6 +33,50 @@ class Api {
       }, error => error ? alert(error) : callback());
   }
 
+  addCollection (id, obj, callback) {
+    return new Promise(() => {
+      firebase.database().ref('users/' + id + '/collections/' +
+        obj.collectionId + '/' + obj.itemName)
+        .set({
+          collectionId: obj.collectionId,
+          name: obj.itemName,
+          description: obj.description,
+          model: obj.model,
+          color: obj.color,
+          weight:obj.weight,
+          width: obj.width,
+          height:obj.height
+        });
+
+      const updates = {};
+      updates[obj.collectionId] = obj.collectionName;
+
+      firebase.database()
+        .ref('users/' + id + '/collection-ref/')
+        .update(updates);
+    }).then(
+      callback()
+    );
+  }
+
+  removeCollection (id, collectionName, callback) {
+    return new Promise(() => {
+      firebase.database().ref('users/' + id + '/collection-ref/' + collectionName).remove();
+
+      firebase.database().ref('users/' + id + '/collections/' + collectionName).remove();
+    }).then(
+      callback()
+    );
+  }
+
+  removeCollectionItem (id, obj, callback) {
+    return new Promise(() => {
+      firebase.database().ref('users/' + id + '/collections/' + obj.collectionName + '/' + obj.name).remove();
+    }).then(
+      callback()
+    );
+  }
+
   checkIfItemExists (id, obj, callback) {
     firebase.database()
       .ref(('users/' + id + '/collections/' + obj.collectionId + '/' + obj.name))

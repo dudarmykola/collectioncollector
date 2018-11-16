@@ -59,7 +59,8 @@ const verifyUser = () => {
         });
 
         $signOutBtn.addEventListener('click', event => {
-          auth.signOut(event);
+          event.preventDefault();
+          auth.signOut();
         });
       } else {
         auth.render();
