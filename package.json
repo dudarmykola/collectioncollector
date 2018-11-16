@@ -11,12 +11,6 @@
     "lint:watch": "esw --watch",
     "stylelint": "stylelint './src/**/*.scss'"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint && npm run stylelint",
-      "post-commit": "git update-index -g"
-    }
-  },
   "author": "",
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.8",

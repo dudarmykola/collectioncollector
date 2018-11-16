@@ -11,7 +11,7 @@ module.exports = {
     }],
     "selector-max-id": 0,
     "selector-class-pattern": ["^([a-z][a-z0-9]*)(-[a-z0-9]+)*$", {
-      "resolveNestedSelectors": null,
+      "resolveNestedSelectors": false,
     }],
     "no-descending-specificity": null,
   }
