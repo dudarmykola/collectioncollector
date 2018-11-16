@@ -178,8 +178,10 @@ body {
     input {
       border: 1px solid $green-color !important;
     }
+  }
 
-    .message--error {
+  .message {
+    &--error {
       color: $green-color !important;
     }
   }

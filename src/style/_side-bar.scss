@@ -67,9 +67,12 @@
         }
       }
 
-      .error--visible {
-        display: block !important;
+      .error {
+        &--visible {
+          display: block !important;
+        }
       }
+
     }
   }
 }
