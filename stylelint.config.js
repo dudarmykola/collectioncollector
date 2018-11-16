@@ -13,6 +13,6 @@ module.exports = {
     "selector-class-pattern": ["^([a-z][a-z0-9]*)(-[a-z0-9]+)*$", {
       "resolveNestedSelectors": false,
     }],
-    "no-descending-specificity": false,
+    "no-descending-specificity": null,
   }
 };
