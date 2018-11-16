@@ -1,0 +1,75 @@
+.menu {
+  height: 100vh;
+  max-width: 400px;
+  overflow-y: scroll;
+  padding: 15px;
+  width: 100vw;
+  position: relative;
+
+  .title {
+    color: $green-color;
+    font-size: 20px;
+    padding-right: 60px;
+    line-height: 30px;
+
+    &--bold {
+      font-weight: 600;
+    }
+  }
+
+  .close {
+    text-decoration: underline;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 30px;
+    color: $green-color;
+    will-change: color;
+    transition: color 200ms ease-in-out;
+
+    &:hover {
+      color: lighten($green-color, 20%);
+      cursor: pointer;
+    }
+  }
+
+  .add-item-form {
+    margin-top: 15px;
+
+    label {
+      margin-bottom: 5px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .input {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      position: relative;
+      padding-bottom: 30px;
+
+      input {
+        padding: 5px;
+        margin: 0;
+      }
+
+      .message {
+        margin: 0;
+        font-size: 12px;
+        position: absolute;
+        bottom: 10px;
+
+        &--error {
+          color: $red-color;
+          display: none;
+        }
+      }
+
+      .error--visible {
+        display: block !important;
+      }
+    }
+  }
+}

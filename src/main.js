@@ -16,11 +16,12 @@ import {
   faSignOutAlt,
   faSignInAlt,
   faTrashAlt,
+  faTimes,
   faUserPlus
 } from '@fortawesome/free-solid-svg-icons/index';
 
 
-library.add(faEdit, faPlus, faSignOutAlt, faSignInAlt, faTrashAlt, faUserPlus );
+library.add(faEdit, faPlus, faSignOutAlt, faSignInAlt, faTrashAlt, faTimes, faUserPlus );
 dom.watch();
 
 const $signOutBtn = document.getElementById('sign-out');
@@ -69,6 +70,7 @@ const verifyUser = () => {
 const init = () => {
   firebase.initializeApp(config);
   verifyUser();
+
 };
 
 init();

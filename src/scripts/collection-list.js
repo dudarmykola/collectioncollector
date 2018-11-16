@@ -3,6 +3,7 @@ import firebase from 'firebase/app';
 import Api from './api';
 import {Modal} from 'windowise';
 import {Input} from 'windowise';
+import AddItemWindow from './add-item';
 
 class CollectionList {
   constructor () {
@@ -18,6 +19,7 @@ class CollectionList {
   createAddButton () {
     const $createCollectionBtn = document.createElement('button');
     $createCollectionBtn.setAttribute('id', 'create-collection' );
+    $createCollectionBtn.setAttribute('title', 'Create collection');
     $createCollectionBtn.classList.add('create-collection' );
     $createCollectionBtn.innerHTML = `
                   <i class="fas fa-plus"></i>
@@ -25,8 +27,28 @@ class CollectionList {
     return $createCollectionBtn;
   }
 
+  createAddItemButton (id) {
+    const $createCollectionItemBtn = document.createElement('button');
+    $createCollectionItemBtn.setAttribute('id', `create-collection-item-${id}` );
+    $createCollectionItemBtn.setAttribute('title', 'Add item');
+    $createCollectionItemBtn.classList.add('collection__head_add' );
+    $createCollectionItemBtn.innerHTML = '<i class="fas fa-plus"></i>';
+    return $createCollectionItemBtn;
+  }
+
+  createRemoveCollectionButton (name) {
+    const $createRemoveCollectionBtn = document.createElement('button');
+    $createRemoveCollectionBtn.setAttribute('id', `remove-collection-${name}` );
+    $createRemoveCollectionBtn.setAttribute('title', 'Remove collection');
+    $createRemoveCollectionBtn.classList.add('collection__head_remove' );
+    $createRemoveCollectionBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+    return $createRemoveCollectionBtn;
+  }
+
   createCollectionHeader (name, id) {
     const $collectionHeader = document.createElement('div');
+    const $createCollectionItemBtn = this.createAddItemButton(id);
+    const $createRemoveCollectionButton = this.createRemoveCollectionButton(name);
     const api = new Api();
 
     api.getCollectionRefName(id, name, collectionName => {
@@ -35,24 +57,37 @@ class CollectionList {
       $collectionHeader.innerHTML = `
          <div class="collection__head">
            <h4 class="collection__head_title">${collectionName}</h4>
-           <button class="collection__head_remove">
-             <i class="fas fa-trash-alt"></i>
-            </button>
          </div>`;
+      $collectionHeader.getElementsByClassName('collection__head')[0].appendChild($createCollectionItemBtn);
+      $collectionHeader.getElementsByClassName('collection__head')[0].appendChild($createRemoveCollectionButton);
+
+      $createCollectionItemBtn.addEventListener('click', event => {
+        event.preventDefault();
+        this.addItemToCollection(id, name, collectionName);
+      });
+
+      $createRemoveCollectionButton.addEventListener('click', event => {
+        event.preventDefault();
+        this.removeCollection(id, name);
+      });
     });
 
     return $collectionHeader;
   }
 
-  createCollectionItemList (collection) {
+  addItemToCollection (id, name, collectionName) {
+    const modal = new AddItemWindow(id, name, collectionName);
 
+    modal.open();
+  }
+
+  createCollectionItemList (collection) {
     const $collection = new CollectionItemList(collection);
 
     return $collection.render();
   }
 
   createCollection (id) {
-
     const collectionObj =  {
       collectionName: null,
       collectionId: null,
@@ -119,7 +154,7 @@ class CollectionList {
         });
 
         const newCollectionNameModal = new Input({
-          title: 'Please input a name of first item',
+          title: 'Please input a name of item',
           text: 'This field is required',
           keepOverlay: true,
           placeholder: 'Letters and numbers only',
@@ -149,7 +184,7 @@ class CollectionList {
                 Object.assign(collectionObj, {description: value});
 
                 const newCollectionModelModal = new Input({
-                  title: 'Please input a model description',
+                  title: 'Please input a model',
                   text: 'You can skip this',
                   keepOverlay: true,
                   showCancel: true
@@ -194,7 +229,7 @@ class CollectionList {
                             Object.assign(collectionObj, {weight: value});
 
                             const newCollectionWidthModal = new Input({
-                              title: 'Please input a wight',
+                              title: 'Please input a width',
                               text: 'You can skip this',
                               keepOverlay: true,
                               placeholder: 'Numbers only',
@@ -244,7 +279,7 @@ class CollectionList {
 
                                     const successModal = new Modal({
                                       title: 'Success',
-                                      text: 'You created your first collection',
+                                      text: 'You created a new collection!',
                                     });
 
                                     successModal.open();

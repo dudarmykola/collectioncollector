@@ -44,6 +44,24 @@
           opacity: 0.8;
         }
       }
+
+      &_add {
+        background: none;
+        border: none;
+        color: $white-color;
+        cursor: pointer;
+        font-size: 20px;
+        position: absolute;
+        right: 45px;
+        top: 15px;
+        transition: opacity 200ms ease-in-out;
+        will-change: opacity;
+        outline: none;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
     }
 
     &__body {
