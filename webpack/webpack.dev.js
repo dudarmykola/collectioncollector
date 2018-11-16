@@ -65,7 +65,7 @@ module.exports = (env, {mode}) => {
         chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
       }),
       new WebpackPwaManifest({
-        filename: 'manifest.json',
+        filename: 'manifest.webmanifest',
         name: 'CollectionCollector',
         short_name: 'CollColl',
         description: 'You can create your own collections',

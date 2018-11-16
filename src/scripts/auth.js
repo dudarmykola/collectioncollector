@@ -33,8 +33,9 @@ class Auth {
 
   }
 
-  signIn (event) {
-    event.preventDefault();
+  signIn () {
+    const errorMessages = new ErrorMessage();
+    errorMessages.clearMessages();
 
     this.errorMessage.hide();
 
@@ -58,9 +59,7 @@ class Auth {
     }
   }
 
-  signUp (event) {
-    event.preventDefault();
-
+  signUp () {
     const user = Object.assign({}, {
       name: this.$name.value,
       password: this.$password.value,
@@ -95,9 +94,7 @@ class Auth {
     }
   }
 
-  signOut (event) {
-    event.preventDefault();
-
+  signOut () {
     const modalWindow = new Modal({
       type: 'caution',
       title: 'Are you sure you want to sign out?',
@@ -232,22 +229,42 @@ class Auth {
 
     this.initShowInputError();
 
-    this.$loginBtn.addEventListener('click', () => {
+    this.$name.focus();
+
+    this.$loginBtn.addEventListener('click', event => {
+      event.preventDefault();
+
+      const errorMessages = new ErrorMessage();
+
+      errorMessages.clearMessages();
+
       this.$loginForm.classList.remove('collapsed');
       this.$registerForm.classList.add('collapsed');
+      this.$username.focus();
     });
 
-    this.$registerBtn.addEventListener('click', () => {
+    this.$registerBtn.addEventListener('click', event => {
+      event.preventDefault();
+
+      const errorMessages = new ErrorMessage();
+
+      errorMessages.clearMessages();
+
       this.$registerForm.classList.remove('collapsed');
       this.$loginForm.classList.add('collapsed');
+      this.$name.focus();
     });
 
     this.$registerForm.addEventListener('submit', event => {
-      this.signUp(event);
+      event.preventDefault();
+
+      this.signUp();
     });
 
     this.$loginForm.addEventListener('submit', event => {
-      this.signIn(event);
+      event.preventDefault();
+
+      this.signIn();
     });
   }
 }

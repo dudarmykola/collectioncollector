@@ -1,5 +1,9 @@
+import RemoveItemWindow from './remove-item';
+
 class CollectionItemList {
-  constructor (items) {
+  constructor (id, collectionName, items) {
+    this.id = id;
+    this.collectionName = collectionName;
     this.items = items;
 
     this.$collectionContainer = this.createList();
@@ -17,6 +21,32 @@ class CollectionItemList {
     return $collectionBody;
   }
 
+  createEditItemButton () {
+    const $createEditItemButton = document.createElement('button');
+
+    $createEditItemButton.setAttribute('title', 'Edit item');
+    $createEditItemButton.classList.add('controls__edit' );
+    $createEditItemButton.innerHTML = '<i class="fas fa-edit"></i>';
+
+    return $createEditItemButton;
+  }
+
+  createRemoveItemButton () {
+    const $createRemoveItemButton = document.createElement('button');
+
+    $createRemoveItemButton.setAttribute('title', 'Remove item');
+    $createRemoveItemButton.classList.add('controls__remove' );
+    $createRemoveItemButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+
+    return $createRemoveItemButton;
+  }
+
+  removeItemFromCollection (id, collectionName, itemName) {
+    const modal = new RemoveItemWindow(id, collectionName);
+
+    modal.removeCollectionItem(itemName);
+  }
+
   render () {
     if (this.items) {
 
@@ -29,21 +59,26 @@ class CollectionItemList {
           switch (el) {
             case 'name': {
               const $item = document.createElement('div');
+              const $controls = document.createElement('div');
+              const $buttonEdit = this.createEditItemButton();
+              const $buttonRemove = this.createRemoveItemButton();
+
               $item.classList.add('field');
               $item.classList.add('field--name');
+              $controls.classList.add('controls');
               $item.innerHTML = `
               <span class="title">Item: </span>
               <span class="option">${this.items[item][el]}</span>
-              <div class="controls">
-                <button class="controls__edit">
-                  <i class="fas fa-edit"></i>
-                </button>
-                <button class="controls__remove">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-              </div>
             `;
               $itemContainer.appendChild($item);
+              $item.appendChild($controls);
+              $controls.appendChild($buttonEdit);
+              $controls.appendChild($buttonRemove);
+
+              $buttonRemove.addEventListener('click' ,event => {
+                event.preventDefault();
+                this.removeItemFromCollection(this.id, this.collectionName, this.items[item][el]);
+              });
 
               break;
             }

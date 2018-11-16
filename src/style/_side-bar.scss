@@ -62,7 +62,7 @@
         bottom: 10px;
 
         &--error {
-          color: $red-color;
+          color: $red-color !important;
           display: none;
         }
       }
@@ -71,6 +71,32 @@
         &--visible {
           display: block !important;
         }
+      }
+    }
+
+    button {
+      margin: 5px auto;
+      background-color: darken($green-color, 25%);
+      border: none;
+      border-radius: 6px;
+      min-width: 140px;
+      padding: 5px;
+      font-size: 18px;
+      line-height: 20px;
+      color: $white-color;
+      $color: #7cf07f;
+      $color2: darken($green-color, 25%);
+
+      &:hover {
+        cursor: pointer;
+        animation: blinds 0.75s linear forwards;
+        background: linear-gradient(0deg, $color 25%, transparent 25%) 0 0 / 0.5em 0.5em, linear-gradient(0deg, $color2 50%, transparent 50%) 0 0 / 1em 1em;
+        color: adjust-hue($color, 30);
+      }
+
+      span {
+        font-size: 20px;
+        line-height: 20px;
       }
     }
   }

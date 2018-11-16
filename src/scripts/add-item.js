@@ -39,8 +39,9 @@ class AddItemWindow {
     const $weight = document.getElementById('weight');
     const $width = document.getElementById('width');
     const $height = document.getElementById('height');
-
     const $addItemForm = document.getElementById('add-item-form');
+
+    $name.focus();
 
     $addItemForm.addEventListener('submit', event => {
       event.preventDefault();

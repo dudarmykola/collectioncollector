@@ -1,13 +1,14 @@
 import CollectionItemList from './collection-item-list';
-import firebase from 'firebase/app';
 import Api from './api';
 import {Modal} from 'windowise';
 import {Input} from 'windowise';
 import AddItemWindow from './add-item';
+import RemoveItemWindow from './remove-item';
 
 class CollectionList {
   constructor () {
     this.$collectionList = document.getElementById('collection-list');
+    this.api = new Api();
   }
 
   createCollectionContainer () {
@@ -81,8 +82,13 @@ class CollectionList {
     modal.open();
   }
 
-  createCollectionItemList (collection) {
-    const $collection = new CollectionItemList(collection);
+  removeCollection (id, collectionName) {
+    const modal = new RemoveItemWindow(id, collectionName);
+    modal.removeCollection();
+  }
+
+  createCollectionItemList (id, collectionName, collection) {
+    const $collection = new CollectionItemList(id, collectionName, collection);
 
     return $collection.render();
   }
@@ -113,7 +119,7 @@ class CollectionList {
 
     const numberValidator = value => {
       return new Promise(function (resolve, reject) {
-        if (!value || isNaN(value)) {
+        if (isNaN(value)) {
           reject('Not a number.');
         } else {
           resolve();
@@ -146,165 +152,124 @@ class CollectionList {
 
     newCollectionModal.open();
 
-    newCollectionModal.getPromise().then(
-      function (value) {
-        Object.assign(collectionObj, {
-          collectionName: value,
-          collectionId: createCollectionId(value)
-        });
+    newCollectionModal.getPromise().then( value => {
+      Object.assign(collectionObj, {
+        collectionName: value,
+        collectionId: createCollectionId(value)
+      });
 
-        const newCollectionNameModal = new Input({
-          title: 'Please input a name of item',
-          text: 'This field is required',
+      const newCollectionNameModal = new Input({
+        title: 'Please input a name of item',
+        text: 'This field is required',
+        keepOverlay: true,
+        placeholder: 'Letters and numbers only',
+        validator: alphaNumericValidator,
+        showCancel: true
+      });
+
+      newCollectionNameModal.open();
+
+      newCollectionNameModal.getPromise().then( value => {
+
+        Object.assign(collectionObj, {itemName: value});
+
+        const newCollectionDescriptionModal = new Input({
+          title: 'Please input a short description',
+          text: 'You can skip this',
           keepOverlay: true,
-          placeholder: 'Letters and numbers only',
-          validator: alphaNumericValidator,
           showCancel: true
         });
 
-        newCollectionNameModal.open();
+        newCollectionDescriptionModal.open();
 
-        newCollectionNameModal.getPromise().then(
-          function (value) {
+        newCollectionDescriptionModal.getPromise().then( value => {
 
-            Object.assign(collectionObj, {itemName: value});
+          Object.assign(collectionObj, {description: value});
 
-            const newCollectionDescriptionModal = new Input({
-              title: 'Please input a short description',
+          const newCollectionModelModal = new Input({
+            title: 'Please input a model',
+            text: 'You can skip this',
+            keepOverlay: true,
+            showCancel: true
+          });
+
+          newCollectionModelModal.open();
+
+          newCollectionModelModal.getPromise().then( value => {
+            Object.assign(collectionObj, {model: value});
+            const newCollectionColorModal = new Input({
+              title: 'Please input a color of item',
               text: 'You can skip this',
               keepOverlay: true,
               showCancel: true
             });
-
-            newCollectionDescriptionModal.open();
-
-            newCollectionDescriptionModal.getPromise().then(
-              function (value) {
-
-                Object.assign(collectionObj, {description: value});
-
-                const newCollectionModelModal = new Input({
-                  title: 'Please input a model',
+            newCollectionColorModal.open();
+            newCollectionColorModal.getPromise().then( value => {
+              Object.assign(collectionObj, {color: value});
+              const newCollectionWeightModal = new Input({
+                title: 'Please input a weight',
+                text: 'You can skip this',
+                keepOverlay: true,
+                placeholder: 'Numbers only',
+                validator: numberValidator,
+                showCancel: true
+              });
+              newCollectionWeightModal.open();
+              newCollectionWeightModal.getPromise().then( value => {
+                Object.assign(collectionObj, {weight: value});
+                const newCollectionWidthModal = new Input({
+                  title: 'Please input a width',
                   text: 'You can skip this',
                   keepOverlay: true,
+                  placeholder: 'Numbers only',
+                  validator: numberValidator,
                   showCancel: true
                 });
-
-                newCollectionModelModal.open();
-
-                newCollectionModelModal.getPromise().then(
-                  function (value) {
-
-                    Object.assign(collectionObj, {model: value});
-
-
-                    const newCollectionColorModal = new Input({
-                      title: 'Please input a color of item',
-                      text: 'You can skip this',
-                      keepOverlay: true,
-                      showCancel: true
-                    });
-
-                    newCollectionColorModal.open();
-
-                    newCollectionColorModal.getPromise().then(
-                      function (value) {
-
-                        Object.assign(collectionObj, {color: value});
-
-                        const newCollectionWeightModal = new Input({
-                          title: 'Please input a weight',
-                          text: 'You can skip this',
-                          keepOverlay: true,
-                          placeholder: 'Numbers only',
-                          validator: numberValidator,
-                          showCancel: true
+                newCollectionWidthModal.open();
+                newCollectionWidthModal.getPromise().then( value => {
+                  Object.assign(collectionObj, {width: value});
+                  const newCollectionHeightModal = new Input({
+                    title: 'Please input a height',
+                    text: 'You can skip this',
+                    placeholder: 'Numbers only',
+                    validator: numberValidator,
+                    showCancel: true
+                  });
+                  newCollectionHeightModal.open();
+                  newCollectionHeightModal.getPromise()
+                    .then( value => {
+                      Object.assign(collectionObj, {height: value});
+                      this.api.addCollection(id, collectionObj, () => {
+                        this.api.fetchCollections(id, collections => {
+                          const collectionList = new CollectionList();
+                          collectionList.render(collections, id);
                         });
-
-                        newCollectionWeightModal.open();
-
-                        newCollectionWeightModal.getPromise().then(
-                          function (value) {
-
-                            Object.assign(collectionObj, {weight: value});
-
-                            const newCollectionWidthModal = new Input({
-                              title: 'Please input a width',
-                              text: 'You can skip this',
-                              keepOverlay: true,
-                              placeholder: 'Numbers only',
-                              validator: numberValidator,
-                              showCancel: true
-                            });
-
-                            newCollectionWidthModal.open();
-
-                            newCollectionWidthModal.getPromise().then(
-                              function (value) {
-                                Object.assign(collectionObj, {width: value});
-
-                                const newCollectionHeightModal = new Input({
-                                  title: 'Please input a height',
-                                  text: 'You can skip this',
-                                  placeholder: 'Numbers only',
-                                  validator: numberValidator,
-                                  showCancel: true
-                                });
-
-                                newCollectionHeightModal.open();
-
-                                newCollectionHeightModal.getPromise().then(
-                                  function (value) {
-                                    Object.assign(collectionObj, {height: value});
-
-                                    firebase.database().ref('users/' + id + '/collections/' +
-                                      collectionObj.collectionId + '/' + collectionObj.itemName)
-                                      .set({
-                                        collectionId: collectionObj.collectionId,
-                                        name: collectionObj.itemName,
-                                        description: collectionObj.description,
-                                        model: collectionObj.model,
-                                        color: collectionObj.color,
-                                        weight:collectionObj.weight,
-                                        width: collectionObj.width,
-                                        height:collectionObj.height
-                                      });
-
-                                    const updates = {};
-                                    updates[collectionObj.collectionId] = collectionObj.collectionName;
-
-                                    firebase.database()
-                                      .ref('users/' + id + '/collection-ref/')
-                                      .update(updates);
-
-                                    const successModal = new Modal({
-                                      title: 'Success',
-                                      text: 'You created a new collection!',
-                                    });
-
-                                    successModal.open();
-                                  }
-                                );
-                              },
-                              cancelModal
-                            );
-                          },
-                          cancelModal
-                        );
-                      },
-                      cancelModal
-                    );
-                  },
-                  cancelModal
-                );
+                      });
+                      const successModal = new Modal({
+                        title: 'Success',
+                        text: 'You created a new collection!'
+                      });
+                      successModal.open();
+                    });
+                },
+                cancelModal);
               },
               cancelModal
+              );
+            },
+            cancelModal
             );
           },
           cancelModal
+          );
+        },
+        cancelModal
         );
       },
       cancelModal
+      );
+    },
+    cancelModal
     );
   }
 
@@ -315,18 +280,16 @@ class CollectionList {
       const $createCollectionBtn = this.createAddButton();
 
       this.$collectionList.appendChild($createCollectionBtn);
-      $createCollectionBtn.addEventListener('click', () => {
-        this.createCollection(id);
-      });
 
-      $createCollectionBtn.addEventListener('click', () => {
+      $createCollectionBtn.addEventListener('click', event => {
+        event.preventDefault();
         this.createCollection(id);
       });
 
       Object.keys(collections).map( collectionName => {
         const $collectionContainer = this.createCollectionContainer();
         const $collectionHeader = this.createCollectionHeader(collectionName, id);
-        const $collectionItemList = this.createCollectionItemList(collections[collectionName]);
+        const $collectionItemList = this.createCollectionItemList(id, collectionName, collections[collectionName]);
 
         $collectionContainer.appendChild($collectionHeader);
         $collectionContainer.appendChild($collectionItemList);
@@ -345,7 +308,8 @@ class CollectionList {
         </div>`;
 
       this.$createCollectionBtn = document.getElementById('create-collection');
-      this.$createCollectionBtn.addEventListener('click', () => {
+      this.$createCollectionBtn.addEventListener('click', event => {
+        event.preventDefault();
         this.createCollection(id);
       });
 

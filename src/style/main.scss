@@ -178,11 +178,11 @@ body {
     input {
       border: 1px solid $green-color !important;
     }
-  }
 
-  .message {
-    &--error {
-      color: $green-color !important;
+    .message {
+      &--error {
+        color: $green-color !important;
+      }
     }
   }
 }
